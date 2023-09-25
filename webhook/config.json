@@ -1,0 +1,20 @@
+{
+    "name": "Webhook Plugin",
+    "webhook_url": "http://localhost:8000",
+    "webhook_secret" : "secret",
+    "report_all_solves": false,
+    "point_levels" : [
+        {"threshold" : 15,
+         "actions": [
+            {"action" : "unlock", "tag": "level2"},
+            {"action" : "webhook", "url" : "http://localhost:8000" }
+         ]
+        },
+        {"threshold" : 80,
+         "actions": [
+            {"action" : "unlock", "tag": "level3"}
+         ]
+        }
+    ],
+    "reported_solves" : ["test"]
+}

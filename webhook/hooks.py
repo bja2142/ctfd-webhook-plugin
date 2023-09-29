@@ -14,7 +14,7 @@ from CTFd.models import (
 
 def trigger_solved_hook(details):
     signature = details["signature"]
-    body = details["solve"]
+    body = details["data"]
     url = details["url"]
     try:
         post("{}/?signature={}".format(url,signature), data=body)
@@ -63,7 +63,8 @@ def on_solve(mapper, conn, solve):
     data = json_dumps(details)
     hmac = new_hmac(hmac_secret.encode(), data.encode(), digestmod="sha256").hexdigest()
     result = { 
-        "solve": data, 
+        "solve": details, 
+        "data" : data,
         "signature" : hmac,
         "url" : app.webhook_plugin_url
         }

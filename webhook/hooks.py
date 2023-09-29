@@ -63,7 +63,7 @@ def on_solve(mapper, conn, solve):
     data = json_dumps(details)
     hmac = new_hmac(hmac_secret.encode(), data.encode(), digestmod="sha256").hexdigest()
     result = { 
-        "solve": details, 
+        "solve": data, 
         "signature" : hmac,
         "url" : app.webhook_plugin_url
         }

@@ -5,7 +5,7 @@ from ...utils.modes import get_model
 from hmac import new as new_hmac
 from json import dumps as json_dumps
 from CTFd.utils.config import is_teams_mode
-from requests import post
+from requests import post, get
 from CTFd.models import (
     db
 )
@@ -21,6 +21,12 @@ def trigger_solved_hook(details):
     except Exception as err:
         print("error posting webhook: ",str(err))
     print("solved hook: ", body, signature)
+
+def trigger_solved_hook_get(url):
+    try:
+        get(url)
+    except Exception as err:
+        print("error posting webhook: ",str(err))
 
 def make_challenges_visible_by_tag(tagname, conn):
     challenges = _get_challenges_by_tagname(tagname)
@@ -46,6 +52,9 @@ def process_threshold_action(action, result, conn):
     elif action["action"] == "webhook":
         result["url"] = action["url"]
         app.webhook_plugin_executor.submit_job(trigger_solved_hook, result)
+    elif action["action"] == "webhook_get":
+        url = action["url"]
+        app.webhook_plugin_executor.submit_job(trigger_solved_hook_get, url)
 
 def check_threshold_alerts(result, conn):
     solve_details = result["solve"]
